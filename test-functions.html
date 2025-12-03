@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Function Test</title>
+</head>
+<body>
+    <h1>Function Availability Test</h1>
+    <button onclick="testFunctions()">Test Functions</button>
+    <div id="results"></div>
+    
+    <script src="./supabase-config.js"></script>
+    <script src="script.js?v=13&t=20251113"></script>
+    <script>
+        function testFunctions() {
+            const results = document.getElementById('results');
+            const functions = [
+                'showSection',
+                'launchNewCompany',
+                'exportAllData',
+                'openAIModal',
+                'showCreateCodeModal',
+                'refreshDashboard',
+                'logout',
+                'createAccessCode',
+                'launchCompany'
+            ];
+            
+            let html = '<h2>Function Test Results:</h2><ul>';
+            functions.forEach(func => {
+                const exists = typeof window[func] === 'function';
+                html += `<li style="color: ${exists ? 'green' : 'red'}">
+                    ${func}: ${exists ? '✅ EXISTS' : '❌ MISSING'}
+                    (Type: ${typeof window[func]})
+                </li>`;
+            });
+            html += '</ul>';
+            results.innerHTML = html;
+        }
+        
+        // Auto-test on load
+        setTimeout(testFunctions, 1000);
+    </script>
+</body>
+</html>
+
+
+
+

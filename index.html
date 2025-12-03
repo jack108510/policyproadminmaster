@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Pro Master Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css?v=2&t=20251113">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Policy Pro</h1>
+                    <span>Master Admin Dashboard</span>
+                </div>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="nav-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-building"></i>
+                        <span id="headerCompanyCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span id="headerUserCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="headerPolicyCount">0</span>
+                    </div>
+                </div>
+                
+                <div class="nav-user">
+                    <div class="user-info">
+                        <span class="user-name">Master Administrator</span>
+                        <span class="user-role">System Admin</span>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-section">
+                    <h3 class="section-title">Dashboard</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item active" data-section="dashboard">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Overview</span>
+                        </button>
+                        <button type="button" class="nav-item" data-section="analytics">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Company Management</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="companies">
+                            <i class="fas fa-building"></i>
+                            <span>Companies</span>
+                            <span class="nav-badge" id="companyBadge">0</span>
+                        </button>
+                        <button type="button" class="nav-item" data-section="users">
+                            <i class="fas fa-users"></i>
+                            <span>All Users</span>
+                            <span class="nav-badge" id="userBadge">0</span>
+                        </button>
+                        <button type="button" class="nav-item" data-section="access-codes">
+                            <i class="fas fa-key"></i>
+                            <span>Access Codes</span>
+                            <span class="nav-badge" id="accessCodeBadge">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Policy Management</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="policies">
+                            <i class="fas fa-file-alt"></i>
+                            <span>All Policies</span>
+                            <span class="nav-badge" id="policyBadge">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Email Marketing</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="email-marketing">
+                            <i class="fas fa-envelope"></i>
+                            <span>Campaigns</span>
+                            <span class="nav-badge" id="emailCampaignBadge">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Tools & Reports</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="policy-upload">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Policies</span>
+                        </button>
+                        <button type="button" class="nav-item" data-section="reports">
+                            <i class="fas fa-file-download"></i>
+                            <span>Export Data</span>
+                        </button>
+                        <button type="button" class="nav-item" data-section="settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Quick Links</h3>
+                    <nav class="sidebar-nav">
+                        <a href="../index.html" class="nav-item external" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            <span>Main Policy Pro Site</span>
+                        </a>
+                        <button type="button" class="nav-item" data-section="help">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <!-- Welcome Banner -->
+                <div class="welcome-banner">
+                    <div class="welcome-content">
+                        <h1>Welcome to Policy Pro Admin</h1>
+                        <p>Manage your entire Policy Pro ecosystem from one central dashboard</p>
+                    </div>
+                    <div class="welcome-actions">
+                        <button class="btn btn-primary btn-large" onclick="launchNewCompany()">
+                            <i class="fas fa-plus-circle"></i>
+                            Launch New Company
+                        </button>
+                        <button class="btn btn-secondary btn-large" onclick="refreshDashboard()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Stats Grid - Enhanced -->
+                <div class="stats-grid-enhanced">
+                    <div class="stat-card-enhanced companies-card" onclick="showSection('companies')">
+                        <div class="stat-header">
+                            <div class="stat-icon-enhanced companies">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+2</span>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <div class="stat-number-large" id="totalCompanies">0</div>
+                            <div class="stat-label-large">Companies</div>
+                            <div class="stat-description">Total organizations</div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-link">View all <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-enhanced users-card" onclick="showSection('users')">
+                        <div class="stat-header">
+                            <div class="stat-icon-enhanced users">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+15</span>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <div class="stat-number-large" id="totalUsers">0</div>
+                            <div class="stat-label-large">Users</div>
+                            <div class="stat-description">Active accounts</div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-link">View all <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-enhanced policies-card" onclick="showSection('policies')">
+                        <div class="stat-header">
+                            <div class="stat-icon-enhanced policies">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+12</span>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <div class="stat-number-large" id="totalPolicies">0</div>
+                            <div class="stat-label-large">Policies</div>
+                            <div class="stat-description">Total documents</div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-link">View all <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-enhanced access-codes-card" onclick="showSection('access-codes')">
+                        <div class="stat-header">
+                            <div class="stat-icon-enhanced access-codes">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div class="stat-trend neutral">
+                                <i class="fas fa-minus"></i>
+                                <span>0</span>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <div class="stat-number-large" id="totalAccessCodes">0</div>
+                            <div class="stat-label-large">Access Codes</div>
+                            <div class="stat-description">Available codes</div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-link">Manage codes <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions - Redesigned -->
+                <div class="quick-actions-section-enhanced">
+                    <div class="section-title-bar">
+                        <h2>Quick Actions</h2>
+                        <p>Common tasks and shortcuts</p>
+                    </div>
+                    <div class="actions-grid-enhanced">
+                        <button class="action-card-enhanced primary-action" onclick="launchNewCompany()">
+                            <div class="action-icon-wrapper">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="action-details">
+                                <h3>Launch New Company</h3>
+                                <p>Set up a new organization with access codes</p>
+                            </div>
+                            <div class="action-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card-enhanced" onclick="showCreateCodeModal()">
+                            <div class="action-icon-wrapper">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div class="action-details">
+                                <h3>Create Access Code</h3>
+                                <p>Generate new access codes for companies</p>
+                            </div>
+                            <div class="action-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card-enhanced" onclick="exportAllData()">
+                            <div class="action-icon-wrapper">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div class="action-details">
+                                <h3>Export Data</h3>
+                                <p>Download reports and backup data</p>
+                            </div>
+                            <div class="action-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </button>
+
+                        <button class="action-card-enhanced" onclick="openAIModal()">
+                            <div class="action-icon-wrapper">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="action-details">
+                                <h3>AI Policy Assistant</h3>
+                                <p>Create policies with AI assistance</p>
+                            </div>
+                            <div class="action-arrow">
+                                <i class="fas fa-chevron-right"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activity - Enhanced -->
+                <div class="recent-activity-section-enhanced">
+                    <div class="section-title-bar">
+                        <h2>Recent Activity</h2>
+                        <button class="btn-text" onclick="showSection('analytics')">
+                            View Analytics <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <div class="activity-feed-enhanced" id="activityFeed">
+                        <div class="activity-empty">
+                            <i class="fas fa-clock"></i>
+                            <p>No recent activity</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Companies Section -->
+            <section id="companies" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Company Management</h2>
+                        <p>Manage organizations and their access</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshCompanies()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                        <button class="btn btn-primary" onclick="launchNewCompany()">
+                            <i class="fas fa-plus"></i>
+                            Add Company
+                        </button>
+                        <button class="btn btn-primary" onclick="showSection('users')">
+                            <i class="fas fa-users"></i>
+                            User Management
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filters-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="companySearch" placeholder="Search companies...">
+                    </div>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="companiesTable">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Users</th>
+                                <th>Policies</th>
+                                <th>Admin Password</th>
+                                <th>API Configuration</th>
+                                <th>Signup Date</th>
+                                <th>Last Active</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="companiesList">
+                            <!-- Companies will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Company Details Modal -->
+            <div id="companyDetailsModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 id="companyDetailsTitle">Company Details</h3>
+                        <button class="modal-close" onclick="closeCompanyDetailsModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="companyDetailsContent">
+                            <!-- Company details and user list will be displayed here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <section id="users" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>User Management</h2>
+                        <p>Manage users across all organizations</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshUsers()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                        <button class="btn btn-warning" onclick="syncFromMainSite()">
+                            <i class="fas fa-download"></i>
+                            Sync from Main Site
+                        </button>
+                        <button class="btn btn-danger" onclick="bulkDeleteUsers()">
+                            <i class="fas fa-trash"></i>
+                            Bulk Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAllUsers" onchange="toggleAllUsers()"></th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Company</th>
+                                <th>Role</th>
+                                <th>Created</th>
+                                <th>Last Login</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersList">
+                            <!-- Users will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Access Codes Section -->
+            <section id="access-codes" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Access Code Management</h2>
+                        <p>Create and manage access codes for new companies</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="showCreateCodeModal()">
+                            <i class="fas fa-plus"></i>
+                            Create Code
+                        </button>
+                    </div>
+                </div>
+
+                <div class="codes-grid" id="accessCodesList">
+                    <!-- Access codes will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Policies Section -->
+            <section id="policies" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Policy Management</h2>
+                        <p>View, edit, and manage all created policies</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshPolicies()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                        <button class="btn btn-danger" onclick="bulkDeletePolicies()">
+                            <i class="fas fa-trash"></i>
+                            Bulk Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Policy Search and Filters -->
+                <div class="policy-filters">
+                    <div class="filter-group">
+                        <input type="text" id="policySearch" placeholder="Search policies by title, content, or policy code..." onkeyup="filterPolicies()">
+                        <select id="policyTypeFilter" onchange="filterPolicies()">
+                            <option value="">All Types</option>
+                            <option value="admin">Admin Policy</option>
+                            <option value="sog">Standard Operating Guidelines</option>
+                            <option value="memo">Communication Memo</option>
+                        </select>
+                        <select id="policyOrganizationFilter" onchange="filterPolicies()">
+                            <option value="">All Organizations</option>
+                            <option value="All Organizations">All Organizations</option>
+                            <option value="Tudor Glen">Tudor Glen</option>
+                            <option value="River Valley">River Valley</option>
+                            <option value="Rosslyn">Rosslyn</option>
+                            <option value="UPC">UPC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Policies Table -->
+                <div class="policies-table-container">
+                    <table class="policies-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAllPolicies" onchange="toggleAllPolicySelection()">
+                                </th>
+                                <th>Policy Code</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Organizations</th>
+                                <th>Created</th>
+                                <th>Last Modified</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="policiesTableBody">
+                            <!-- Policies will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Policies Message -->
+                <div id="noPoliciesMessage" class="no-data-message" style="display: none;">
+                    <div class="no-data-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>No Policies Found</h3>
+                    <p>No policies have been created yet. Use the AI Policy Assistant to create your first policy.</p>
+                    <button class="btn btn-primary" onclick="openAIModal()">
+                        <i class="fas fa-robot"></i>
+                        Create Policy with AI
+                    </button>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Analytics & Insights</h2>
+                        <p>System performance and usage analytics</p>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Company Growth</h3>
+                            <div class="chart-actions">
+                                <button class="chart-btn active" data-period="month">Month</button>
+                                <button class="chart-btn" data-period="year">Year</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Policy Distribution</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="policyTypesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>User Activity</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Monthly Signups</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="signupsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Reports & Export</h2>
+                        <p>Generate and download system reports</p>
+                    </div>
+                </div>
+
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Company Report</h3>
+                            <p>Comprehensive company data and statistics</p>
+                            <button class="btn btn-primary" onclick="exportCompanyReport()">
+                                <i class="fas fa-download"></i>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>User Report</h3>
+                            <p>User activity and engagement data</p>
+                            <button class="btn btn-primary" onclick="exportUserReport()">
+                                <i class="fas fa-download"></i>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card">
+                        <div class="report-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Analytics Report</h3>
+                            <p>System analytics and performance metrics</p>
+                            <button class="btn btn-primary" onclick="exportAnalyticsReport()">
+                                <i class="fas fa-download"></i>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Policy Upload Section -->
+            <section id="policy-upload" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Policy Upload & AI Analysis</h2>
+                        <p>Upload existing policies and let AI categorize and extract information</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="clearUploadArea()">
+                            <i class="fas fa-redo"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upload-container">
+                    <!-- Drag and Drop Area -->
+                    <div id="uploadArea" class="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drag & Drop Your Policy Documents Here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-folder-open"></i>
+                            Choose Files
+                        </button>
+                        <p class="upload-info">Supported formats: PDF, Word, Text files</p>
+                    </div>
+
+                    <!-- Processing Status -->
+                    <div id="processingStatus" class="processing-status" style="display: none;">
+                        <div class="processing-content">
+                            <div class="processing-icon">
+                                <i class="fas fa-cog fa-spin"></i>
+                            </div>
+                            <h3>Processing Documents...</h3>
+                            <p id="processingMessage">Analyzing uploaded policies with AI</p>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Uploaded Files Preview -->
+                    <div id="uploadedFiles" class="uploaded-files" style="display: none;">
+                        <h3>Uploaded Documents</h3>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
+                    <!-- AI Analysis Results -->
+                    <div id="analysisResults" class="analysis-results" style="display: none;">
+                        <h3>AI Analysis Results</h3>
+                        <div id="analysisContent" class="analysis-content"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Center Section -->
+            <!-- Settings Section -->
+            <section id="settings" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Global Settings</h2>
+                        <p>Configure API keys and system-wide settings</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>PDF.co API Configuration</h3>
+                        <p>Configure the PDF.co API key for document processing. This key will be used by all companies.</p>
+                        <div class="form-group">
+                            <label for="globalPdfCoApiKey">PDF.co API Key</label>
+                            <input type="password" id="globalPdfCoApiKey" class="form-control" placeholder="Enter your PDF.co API key">
+                            <small>Get your API key from <a href="https://pdf.co" target="_blank">pdf.co</a></small>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveGlobalApiKeys()">
+                            <i class="fas fa-save"></i>
+                            Save PDF.co API Key
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>OpenAI API Configuration</h3>
+                        <p>Configure the OpenAI API key for AI-powered policy analysis.</p>
+                        <div class="form-group">
+                            <label for="globalOpenAIApiKey">OpenAI API Key</label>
+                            <input type="password" id="globalOpenAIApiKey" class="form-control" placeholder="Enter your OpenAI API key">
+                            <small>Get your API key from <a href="https://platform.openai.com" target="_blank">platform.openai.com</a></small>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveGlobalApiKeys()">
+                            <i class="fas fa-save"></i>
+                            Save OpenAI API Key
+                        </button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>System Maintenance</h3>
+                        <p>Manage system data and perform maintenance tasks.</p>
+                        <button class="btn btn-danger" onclick="clearAllUsers()">
+                            <i class="fas fa-trash"></i>
+                            Clear All Users
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportAllData()">
+                            <i class="fas fa-download"></i>
+                            Export All Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Policy Generator Configuration -->
+                <div class="section-header" style="margin-top: 40px;">
+                    <div class="header-content">
+                        <h2>AI Policy Generator Configuration</h2>
+                        <p>Configure all options available in the AI Policy Generator</p>
+                    </div>
+                </div>
+
+                <div class="config-sections">
+                    <!-- Organizations Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-building"></i> Organizations</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('organization')">
+                                <i class="fas fa-plus"></i> Add Organization
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="organizationsList">
+                            <!-- Organizations will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Roles Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-user-tie"></i> Responsible Roles</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('role')">
+                                <i class="fas fa-plus"></i> Add Role
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="rolesList">
+                            <!-- Roles will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Disciplinary Actions Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-exclamation-triangle"></i> Disciplinary Actions (Consequences)</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('disciplinary')">
+                                <i class="fas fa-plus"></i> Add Action
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="disciplinaryList">
+                            <!-- Disciplinary actions will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Policy Categories Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-tags"></i> Policy Categories/Types</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('category')">
+                                <i class="fas fa-plus"></i> Add Category
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="categoriesList">
+                            <!-- Categories will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Audience Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-users"></i> Audience Options</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('audience')">
+                                <i class="fas fa-plus"></i> Add Audience
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="audienceList">
+                            <!-- Audience options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Compliance Requirements Configuration -->
+                    <div class="config-section-card">
+                        <div class="config-section-header">
+                            <h3><i class="fas fa-shield-alt"></i> Compliance Requirements</h3>
+                            <button class="btn btn-sm btn-primary" onclick="addConfigItem('compliance')">
+                                <i class="fas fa-plus"></i> Add Requirement
+                            </button>
+                        </div>
+                        <div class="config-items-list" id="complianceList">
+                            <!-- Compliance requirements will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="profile" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Profile Center</h2>
+                        <p>Manage your account settings and preferences</p>
+                    </div>
+                </div>
+
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="profile-info">
+                                <h3>Master Administrator</h3>
+                                <p>System Administrator</p>
+                                <span class="profile-status active">Active</span>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary" onclick="showChangePasswordModal()">
+                                <i class="fas fa-key"></i>
+                                Change Password
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="profile-section">
+                            <h4>Account Information</h4>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Username</label>
+                                    <span>master_admin</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Email</label>
+                                    <span>admin@csi.com</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Role</label>
+                                    <span>System Administrator</span>
+                                </div>
+                                <div class="info-item">
+                                    <label>Last Login</label>
+                                    <span id="lastLoginTime">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="profile-section">
+                            <h4>Security Settings</h4>
+                            <div class="security-options">
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <h5>Two-Factor Authentication</h5>
+                                        <p>Add an extra layer of security to your account</p>
+                                    </div>
+                                    <button class="btn btn-secondary" onclick="enable2FA()">
+                                        Enable 2FA
+                                    </button>
+                                </div>
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <h5>Session Management</h5>
+                                        <p>Manage active sessions and devices</p>
+                                    </div>
+                                    <button class="btn btn-secondary" onclick="manageSessions()">
+                                        Manage Sessions
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <div class="profile-section">
+                            <h4>System Preferences</h4>
+                            <div class="preference-options">
+                                <div class="preference-item">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Email notifications for new companies
+                                    </label>
+                                </div>
+                                <div class="preference-item">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        Weekly analytics reports
+                                    </label>
+                                </div>
+                                <div class="preference-item">
+                                    <label>
+                                        <input type="checkbox">
+                                        Daily activity summaries
+                                    </label>
+                                </div>
+                                <div class="preference-item">
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        System maintenance alerts
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="savePreferences()">
+                                Save Preferences
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Help Section -->
+            <!-- Email Marketing Section -->
+            <section id="email-marketing" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Email Marketing</h2>
+                        <p>Create and schedule email campaigns</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openCreateEmailModal()">
+                            <i class="fas fa-plus"></i>
+                            Create Campaign
+                        </button>
+                        <button class="btn btn-secondary" onclick="refreshEmailCampaigns()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Campaigns Grid -->
+                <div class="campaigns-grid" id="emailCampaignsGrid">
+                    <!-- Campaigns will be loaded here -->
+                </div>
+            </section>
+
+            <section id="help" class="content-section">
+                <div class="section-header">
+                    <h2>Help & Support</h2>
+                    <p>Get assistance and learn how to use Policy Pro Master Admin</p>
+                </div>
+                <div class="help-content">
+                    <div class="help-grid">
+                        <div class="help-card">
+                            <div class="help-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h3>Getting Started</h3>
+                            <p>Learn the basics of managing companies and users</p>
+                            <ul>
+                                <li>Create access codes for new companies</li>
+                                <li>Set up company admin passwords</li>
+                                <li>Monitor user activity and growth</li>
+                            </ul>
+                        </div>
+                        <div class="help-card">
+                            <div class="help-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3>User Management</h3>
+                            <p>Manage users across all companies</p>
+                            <ul>
+                                <li>View detailed user information</li>
+                                <li>Grant or revoke admin access</li>
+                                <li>Bulk actions for multiple users</li>
+                            </ul>
+                        </div>
+                        <div class="help-card">
+                            <div class="help-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Analytics & Reports</h3>
+                            <p>Track growth and export data</p>
+                            <ul>
+                                <li>Monitor company growth trends</li>
+                                <li>Export user lists and reports</li>
+                                <li>Track policy creation activity</li>
+                            </ul>
+                        </div>
+                        <div class="help-card">
+                            <div class="help-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <h3>System Configuration</h3>
+                            <p>Configure system-wide settings</p>
+                            <ul>
+                                <li>Set default admin passwords</li>
+                                <li>Configure API settings per company</li>
+                                <li>Manage system preferences</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-tips">
+                        <h3>Quick Tips</h3>
+                        <div class="tips-grid">
+                            <div class="tip-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Use the refresh button to sync data between sites</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-key"></i>
+                                <span>Access codes are single-use and expire automatically</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Admin users bypass password requirements for company dashboards</span>
+                            </div>
+                            <div class="tip-item">
+                                <i class="fas fa-download"></i>
+                                <span>Export user data for backup or external analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="launchCompanyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Launch New Company</h3>
+                <button class="modal-close" onclick="closeLaunchModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="launchCompanyForm" onsubmit="launchCompany(event)">
+                    <div class="form-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminName">Admin Name</label>
+                        <input type="text" id="adminName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminEmail">Admin Email</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminUsername">Admin Username</label>
+                        <input type="text" id="adminUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="accessCode">Access Code</label>
+                        <select id="accessCode" required>
+                            <option value="">Select Access Code</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeLaunchModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Launch Company</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="createCodeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Access Code</h3>
+                <button class="modal-close" onclick="closeCreateCodeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createCodeForm" onsubmit="createAccessCode(event)">
+                    <div class="form-group">
+                        <label for="newAccessCode">Access Code</label>
+                        <input type="text" id="newAccessCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="codeDescription">Description</label>
+                        <input type="text" id="codeDescription" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="codeExpiry">Expiry Date (optional)</label>
+                        <input type="date" id="codeExpiry">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxCompanies">Max Companies</label>
+                        <input type="number" id="maxCompanies" min="1" value="10">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCreateCodeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Code</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="companyDetailsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="companyDetailsTitle">Company Details</h3>
+                <button class="modal-close" onclick="closeCompanyDetailsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="companyDetailsContent">
+                    <!-- Company details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Password</h3>
+                <button class="modal-close" onclick="closeChangePasswordModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required minlength="8">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required minlength="8">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeChangePasswordModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Change Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Admin Password Modal -->
+    <div id="companyPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Set Company Admin Password</h3>
+                <button class="modal-close" onclick="closeCompanyPasswordModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="companyPasswordForm">
+                    <div class="form-group">
+                        <label for="passwordCompanyName">Company</label>
+                        <input type="text" id="passwordCompanyName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="newCompanyPassword">New Admin Password</label>
+                        <input type="password" id="newCompanyPassword" required placeholder="Enter new admin password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmCompanyPassword">Confirm Password</label>
+                        <input type="password" id="confirmCompanyPassword" required placeholder="Confirm new password">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCompanyPasswordModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Set Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company API Configuration Modal -->
+    <div id="companyAPIModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configure Company API Settings</h3>
+                <button class="modal-close" onclick="closeCompanyAPIModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="companyAPIForm">
+                    <div class="form-group">
+                        <label for="apiCompanyName">Company</label>
+                        <input type="text" id="apiCompanyName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyAPIKey">OpenAI API Key</label>
+                        <input type="password" id="companyAPIKey" placeholder="Enter OpenAI API key for this company">
+                        <small class="form-help">
+                            Get API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="apiStatus">API Status</label>
+                        <div id="apiStatus" class="api-status">
+                            <!-- API status will be displayed here -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCompanyAPIModal()">Cancel</button>
+                        <button type="button" class="btn btn-info" onclick="testCompanyAPI()">Test API</button>
+                        <button type="button" class="btn btn-primary" onclick="saveCompanyAPIKey()">Save API Key</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Policy Edit Modal -->
+    <div id="policyEditModal" class="modal">
+        <div class="modal-content policy-edit-modal">
+            <div class="modal-header">
+                <h3 id="policyEditTitle">Edit Policy</h3>
+                <button class="modal-close" onclick="closePolicyEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="policyEditForm">
+                    <div class="form-group">
+                        <label for="editPolicyTitle">Policy Title</label>
+                        <input type="text" id="editPolicyTitle" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPolicyType">Policy Type</label>
+                        <select id="editPolicyType" required>
+                            <option value="admin">Admin Policy</option>
+                            <option value="sog">Standard Operating Guidelines</option>
+                            <option value="memo">Communication Memo</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPolicyOrganizations">Applicable Organizations</label>
+                        <div class="organization-checkboxes">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editOrgAll" onchange="toggleAllEditOrganizations()">
+                                <span>All Organizations</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editOrgTudorGlen" value="Tudor Glen">
+                                <span>Tudor Glen</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editOrgRiverValley" value="River Valley">
+                                <span>River Valley</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editOrgRosslyn" value="Rosslyn">
+                                <span>Rosslyn</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="editOrgUPC" value="UPC">
+                                <span>UPC</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPolicyContent">Policy Content</label>
+                        <textarea id="editPolicyContent" rows="20" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPolicyEffectiveDate">Effective Date</label>
+                        <input type="date" id="editPolicyEffectiveDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editPolicyVersion">Version</label>
+                        <input type="text" id="editPolicyVersion" value="1.0" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closePolicyEditModal()">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="deletePolicy()">Delete Policy</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Policy Assistant Modal -->
+    <div id="aiModal" class="modal">
+        <div class="modal-content chat-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-robot"></i> AI Policy Assistant</h3>
+                <p class="ai-subtitle">Create professional policies with AI assistance</p>
+                <span class="close" onclick="closeAIModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Form-Based Setup Section -->
+                <div class="ai-form-setup" id="aiFormSetup">
+                    <div class="form-tabs">
+                        <button class="form-tab active" onclick="switchFormTab('basic')" data-tab="basic">
+                            <i class="fas fa-info-circle"></i> Basic Info
+                        </button>
+                        <button class="form-tab" onclick="switchFormTab('details')" data-tab="details">
+                            <i class="fas fa-file-alt"></i> Details
+                        </button>
+                        <button class="form-tab" onclick="switchFormTab('settings')" data-tab="settings">
+                            <i class="fas fa-cog"></i> Settings
+                        </button>
+                        <button class="form-tab" onclick="switchFormTab('chat')" data-tab="chat">
+                            <i class="fas fa-comments"></i> Chat
+                        </button>
+                    </div>
+
+                    <!-- Basic Info Tab -->
+                    <div class="form-tab-content active" id="tab-basic">
+                        <div class="form-section">
+                            <h4><i class="fas fa-tag"></i> Policy Type</h4>
+                            <div class="policy-type-toggles" id="formPolicyTypes">
+                                <!-- Populated from config -->
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label for="aiPolicyTitle">
+                                    Policy Title <span class="required">*</span>
+                                    <span class="help-text">e.g., "Patient Safety Protocol" or "Hand Hygiene Procedures"</span>
+                                </label>
+                                <input type="text" id="aiPolicyTitle" class="form-control" 
+                                       placeholder="Enter a descriptive title for your policy"
+                                       oninput="updatePolicyPreview()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiPolicyDescription">
+                                    Policy Description
+                                    <span class="help-text">Brief overview of what this policy covers</span>
+                                </label>
+                                <textarea id="aiPolicyDescription" class="form-control" rows="3" 
+                                          placeholder="Describe the purpose and scope of this policy..."
+                                          oninput="updatePolicyPreview()"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiPolicyKeyPoints">
+                                    Key Requirements/Points
+                                    <span class="help-text">List the main requirements or points this policy should address (one per line)</span>
+                                </label>
+                                <textarea id="aiPolicyKeyPoints" class="form-control" rows="4" 
+                                          placeholder="• Patient safety measures&#10;• Staff responsibilities&#10;• Compliance requirements"
+                                          oninput="updatePolicyPreview()"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details Tab -->
+                    <div class="form-tab-content" id="tab-details">
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label for="aiPolicyAudience">
+                                    Target Audience
+                                    <span class="help-text">Who should read and follow this policy?</span>
+                                </label>
+                                <div class="audience-toggles" id="formAudienceToggles">
+                                    <!-- Populated from config -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiPolicyCompliance">
+                                    Compliance Requirements
+                                    <span class="help-text">Select applicable compliance standards</span>
+                                </label>
+                                <div class="compliance-toggles" id="formComplianceToggles">
+                                    <!-- Populated from config -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiPolicyEffectiveDate">
+                                    Effective Date
+                                </label>
+                                <input type="date" id="aiPolicyEffectiveDate" class="form-control" 
+                                       value="" onchange="updatePolicyPreview()">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aiPolicyVersion">
+                                    Version
+                                </label>
+                                <input type="text" id="aiPolicyVersion" class="form-control" 
+                                       value="1.0" placeholder="1.0" onchange="updatePolicyPreview()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="form-tab-content" id="tab-settings">
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label>
+                                    Applicable Organizations
+                                </label>
+                                <div class="organization-toggles" id="formOrganizations">
+                                    <!-- Populated from config -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    Responsible Roles
+                                </label>
+                                <div class="responsibility-toggles" id="formResponsibilityToggles">
+                                    <!-- Populated from config -->
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    Disciplinary Actions
+                                </label>
+                                <div class="disciplinary-toggles" id="formDisciplinaryToggles">
+                                    <!-- Populated from config -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Tab -->
+                    <div class="form-tab-content" id="tab-chat">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <p><strong>Hello! I'm your AI Policy Assistant powered by ChatGPT.</strong></p>
+                                        <p>Fill out the form in the tabs above, or chat with me to refine your policy. I can help you:</p>
+                                        <ul>
+                                            <li>Clarify policy requirements</li>
+                                            <li>Suggest improvements</li>
+                                            <li>Answer questions about policy structure</li>
+                                            <li>Refine the generated policy</li>
+                                        </ul>
+                                        <p><strong>What would you like to know or discuss?</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input-container">
+                                <div class="chat-input">
+                                    <input type="text" id="chatInput" placeholder="Ask a question or provide additional details..." onkeypress="handleChatKeyPress(event)">
+                                    <button onclick="sendChatMessage()" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="chat-actions">
+                                    <button onclick="resetChat()" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-refresh"></i> Clear Chat
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="form-actions-bar">
+                        <button onclick="generatePolicyFromForm()" class="btn btn-primary btn-large" id="generateFromFormBtn">
+                            <i class="fas fa-magic"></i> Generate Policy with AI
+                        </button>
+                        <button onclick="previewPolicyForm()" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i> Preview Settings
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="aiLoading" class="ai-loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Generating your policy with AI...</p>
+                </div>
+                
+                <div id="aiResult" class="ai-result" style="display: none;">
+                    <h4>Generated Policy</h4>
+                    <div class="policy-preview" id="policyPreview"></div>
+                    <div class="policy-actions">
+                        <button onclick="saveGeneratedPolicy()" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Policy
+                        </button>
+                        <button onclick="downloadGeneratedPolicy()" class="btn btn-secondary">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button onclick="regeneratePolicy()" class="btn btn-outline">
+                            <i class="fas fa-redo"></i> Regenerate
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuration Item Modal -->
+    <div id="configItemModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="configItemModalTitle">Add Configuration Item</h3>
+                <button class="modal-close" onclick="closeConfigItemModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="configItemForm" onsubmit="saveConfigItem(event)">
+                    <input type="hidden" id="configItemType" value="">
+                    <input type="hidden" id="configItemId" value="">
+                    
+                    <div class="form-group">
+                        <label for="configItemName">Name</label>
+                        <input type="text" id="configItemName" class="form-control" required placeholder="Enter name">
+                    </div>
+                    
+                    <div class="form-group" id="configItemValueGroup" style="display: none;">
+                        <label for="configItemValue">Value/Code</label>
+                        <input type="text" id="configItemValue" class="form-control" placeholder="Enter value or code (optional)">
+                        <small>Used internally for organization codes, category values, etc.</small>
+                    </div>
+                    
+                    <div class="form-group" id="configItemDescriptionGroup">
+                        <label for="configItemDescription">Description</label>
+                        <textarea id="configItemDescription" class="form-control" rows="3" placeholder="Enter description (optional)"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeConfigItemModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="script.js?v=14&t=20250202"></script>
+</body>
+</html>
