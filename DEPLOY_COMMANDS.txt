@@ -1,0 +1,50 @@
+═══════════════════════════════════════════════════════════════
+  READY-TO-USE COMMANDS FOR YOUR GITHUB REPOSITORY
+═══════════════════════════════════════════════════════════════
+
+Your GitHub Username: jack108510
+Repository Name: policyproadminmaster
+Repository URL: https://github.com/jack108510/policyproadminmaster.git
+
+═══════════════════════════════════════════════════════════════
+
+STEP 1: CREATE REPOSITORY ON GITHUB (if not already created)
+───────────────────────────────────────────────────────────────
+1. Go to: https://github.com/new
+2. Repository name: policyproadminmaster
+3. Make it Private (recommended)
+4. Do NOT initialize with README
+5. Click "Create repository"
+
+═══════════════════════════════════════════════════════════════
+
+STEP 2: PUSH YOUR CODE (Copy & Paste These Commands)
+───────────────────────────────────────────────────────────────
+
+cd /Users/jack/admin-master
+git remote add origin https://github.com/jack108510/policyproadminmaster.git
+git branch -M main
+git push -u origin main
+
+═══════════════════════════════════════════════════════════════
+
+STEP 3: ENABLE GITHUB PAGES
+───────────────────────────────────────────────────────────────
+1. Go to: https://github.com/jack108510/policyproadminmaster/settings/pages
+2. Source: Deploy from a branch
+3. Branch: main
+4. Folder: / (root)
+5. Click Save
+
+═══════════════════════════════════════════════════════════════
+
+STEP 4: ACCESS YOUR DASHBOARD
+───────────────────────────────────────────────────────────────
+After 1-2 minutes, visit:
+https://jack108510.github.io/policyproadminmaster/
+
+═══════════════════════════════════════════════════════════════
+
+Or run the script: chmod +x PUSH_TO_GITHUB.sh && ./PUSH_TO_GITHUB.sh
+
+═══════════════════════════════════════════════════════════════

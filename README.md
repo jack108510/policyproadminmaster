@@ -9,7 +9,7 @@ This dashboard is ready to deploy to GitHub Pages!
 ### Live URL
 
 Once deployed, your dashboard will be available at:
-- `https://[your-username].github.io/admin-master/`
+- `https://jack108510.github.io/policyproadminmaster/`
 
 ## 📁 Files
 
@@ -35,35 +35,24 @@ Make sure to configure your Supabase credentials in `supabase-config.js` before 
 
 ## 📦 Deployment
 
-### Deploy to GitHub Pages
+### Quick Deploy
 
-1. Create a new repository on GitHub named `admin-master`
-2. Push this code to the repository
-3. Go to Settings → Pages
-4. Select "Deploy from a branch" → `main` → `/ (root)`
-5. Wait 1-2 minutes for deployment
+1. Repository already exists at: `https://github.com/jack108510/policyproadminmaster.git`
+2. Push your code using the commands in `DEPLOY_COMMANDS.txt`
+3. Go to Settings → Pages and enable GitHub Pages
+4. Access your dashboard at: `https://jack108510.github.io/policyproadminmaster/`
 
-### Manual Setup
+### Detailed Instructions
 
-```bash
-# Initialize git repository
-git init
-git add .
-git commit -m "Initial commit: Admin dashboard"
-
-# Add remote (replace with your GitHub username)
-git remote add origin https://github.com/[your-username]/admin-master.git
-git branch -M main
-git push -u origin main
-```
+See `DEPLOY_NOW.md` or `SETUP.md` for complete deployment instructions.
 
 ## 🌐 Access
 
 After deployment, access your dashboard at:
-- `https://[your-username].github.io/admin-master/index.html`
+- `https://jack108510.github.io/policyproadminmaster/index.html`
 
 Or simply:
-- `https://[your-username].github.io/admin-master/` (index.html loads automatically)
+- `https://jack108510.github.io/policyproadminmaster/` (index.html loads automatically)
 
 ## 🔐 Security
 
@@ -74,4 +63,3 @@ Or simply:
 ## 📝 License
 
 Private - Internal Use Only
-

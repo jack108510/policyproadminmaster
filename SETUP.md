@@ -7,7 +7,7 @@ Follow these steps to deploy your admin dashboard to GitHub Pages.
 ### Step 1: Create GitHub Repository
 
 1. Go to https://github.com/new
-2. Repository name: `admin-master`
+2. Repository name: `policyproadminmaster`
 3. Description: `Policy Pro Master Admin Dashboard`
 4. Visibility: **Private** (recommended for admin dashboards)
 5. Do NOT initialize with README, .gitignore, or license (we already have these)
@@ -31,7 +31,7 @@ git add .
 git commit -m "Initial commit: Admin dashboard for GitHub Pages"
 
 # Add remote (replace YOUR_USERNAME with your GitHub username)
-git remote add origin https://github.com/YOUR_USERNAME/admin-master.git
+git remote add origin https://github.com/YOUR_USERNAME/policyproadminmaster.git
 
 # Rename branch to main
 git branch -M main
@@ -44,7 +44,7 @@ git push -u origin main
 
 ### Step 3: Enable GitHub Pages
 
-1. Go to your repository: `https://github.com/YOUR_USERNAME/admin-master`
+1. Go to your repository: `https://github.com/YOUR_USERNAME/policyproadminmaster`
 2. Click **Settings** tab
 3. Scroll down to **Pages** in the left sidebar
 4. Under **Source**:
@@ -61,8 +61,8 @@ git push -u origin main
 ### Step 5: Access Your Dashboard
 
 Your dashboard will be live at:
-- **URL**: `https://YOUR_USERNAME.github.io/admin-master/`
-- Example: `https://jack108510.github.io/admin-master/`
+- **URL**: `https://YOUR_USERNAME.github.io/policyproadminmaster/`
+- Example: `https://jack108510.github.io/policyproadminmaster/`
 
 ## ✅ What's Configured
 

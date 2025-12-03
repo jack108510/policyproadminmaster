@@ -5,7 +5,7 @@ Your admin dashboard repository is ready! Follow these 3 simple steps:
 ## Step 1: Create GitHub Repository
 
 1. Go to: https://github.com/new
-2. Repository name: **admin-master**
+2. Repository name: **policyproadminmaster**
 3. Make it **Private** (recommended for admin dashboards)
 4. **Do NOT** check "Initialize with README"
 5. Click **Create repository**
@@ -18,7 +18,7 @@ Copy and paste these commands (replace `YOUR_USERNAME` with your GitHub username
 cd /Users/jack/admin-master
 
 # Add remote repository
-git remote add origin https://github.com/YOUR_USERNAME/admin-master.git
+git remote add origin https://github.com/YOUR_USERNAME/policyproadminmaster.git
 
 # Push to GitHub
 git branch -M main
@@ -27,14 +27,14 @@ git push -u origin main
 
 **Example** (if your username is `jack108510`):
 ```bash
-git remote add origin https://github.com/jack108510/admin-master.git
+git remote add origin https://github.com/jack108510/policyproadminmaster.git
 git branch -M main
 git push -u origin main
 ```
 
 ## Step 3: Enable GitHub Pages
 
-1. Go to: `https://github.com/YOUR_USERNAME/admin-master/settings/pages`
+1. Go to: `https://github.com/YOUR_USERNAME/policyproadminmaster/settings/pages`
 2. Under **Source**, select:
    - **Deploy from a branch**
    - **Branch**: `main`
@@ -44,13 +44,13 @@ git push -u origin main
 ## ✅ Done!
 
 Wait 1-2 minutes, then visit:
-**https://YOUR_USERNAME.github.io/admin-master/**
+**https://YOUR_USERNAME.github.io/policyproadminmaster/**
 
 ---
 
 ## 📋 Checklist
 
-- [ ] Created GitHub repository named `admin-master`
+- [ ] Created GitHub repository named `policyproadminmaster`
 - [ ] Added remote and pushed code
 - [ ] Enabled GitHub Pages in repository settings
 - [ ] Visited the live URL
