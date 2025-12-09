@@ -32,6 +32,10 @@
                         <i class="fas fa-users"></i>
                         <span id="headerUserCount">0</span>
                     </div>
+                    <div class="stat-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span id="headerPolicyCount">0</span>
+                    </div>
                 </div>
                 
                 <div class="nav-user">
@@ -88,8 +92,34 @@
                 </div>
 
                 <div class="sidebar-section">
+                    <h3 class="section-title">Policy Management</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="policies">
+                            <i class="fas fa-file-alt"></i>
+                            <span>All Policies</span>
+                            <span class="nav-badge" id="policyBadge">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="section-title">Email Marketing</h3>
+                    <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="email-marketing">
+                            <i class="fas fa-envelope"></i>
+                            <span>Campaigns</span>
+                            <span class="nav-badge" id="emailCampaignBadge">0</span>
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="sidebar-section">
                     <h3 class="section-title">Tools & Reports</h3>
                     <nav class="sidebar-nav">
+                        <button type="button" class="nav-item" data-section="policy-upload">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload Policies</span>
+                        </button>
                         <button type="button" class="nav-item" data-section="reports">
                             <i class="fas fa-file-download"></i>
                             <span>Export Data</span>
@@ -175,6 +205,26 @@
                             <div class="stat-number-large" id="totalUsers">0</div>
                             <div class="stat-label-large">Users</div>
                             <div class="stat-description">Active accounts</div>
+                        </div>
+                        <div class="stat-footer">
+                            <span class="stat-link">View all <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card-enhanced policies-card" onclick="showSection('policies')">
+                        <div class="stat-header">
+                            <div class="stat-icon-enhanced policies">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+12</span>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <div class="stat-number-large" id="totalPolicies">0</div>
+                            <div class="stat-label-large">Policies</div>
+                            <div class="stat-description">Total documents</div>
                         </div>
                         <div class="stat-footer">
                             <span class="stat-link">View all <i class="fas fa-arrow-right"></i></span>
@@ -296,9 +346,9 @@
                             <i class="fas fa-plus"></i>
                             Add Company
                         </button>
-                        <button class="btn btn-primary" onclick="showSection('users')">
+                        <button class="btn btn-outline" onclick="showSection('users')">
                             <i class="fas fa-users"></i>
-                            User Management
+                            View Users
                         </button>
                     </div>
                 </div>
@@ -306,33 +356,17 @@
                 <div class="filters-bar">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="companySearch" placeholder="Search companies...">
+                        <input type="text" id="companySearch" placeholder="Search companies by name, admin email, or access code..." onkeyup="filterCompanies()">
                     </div>
-                    <select id="statusFilter" class="filter-select">
+                    <select id="statusFilter" class="filter-select" onchange="filterCompanies()">
                         <option value="">All Status</option>
                         <option value="active">Active</option>
                         <option value="suspended">Suspended</option>
                     </select>
                 </div>
 
-                <div class="table-container">
-                    <table class="data-table" id="companiesTable">
-                        <thead>
-                            <tr>
-                                <th>Company</th>
-                                <th>Users</th>
-                                <th>Policies</th>
-                                <th>Admin Password</th>
-                                <th>Signup Date</th>
-                                <th>Last Active</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="companiesList">
-                            <!-- Companies will be loaded here -->
-                        </tbody>
-                    </table>
+                <div class="companies-grid" id="companiesList">
+                    <!-- Companies will be loaded here as cards -->
                 </div>
             </section>
 
@@ -361,6 +395,10 @@
                         <p>Manage users across all organizations</p>
                     </div>
                     <div class="header-actions">
+                        <button class="btn btn-primary" onclick="showCreateUserModal()">
+                            <i class="fas fa-plus"></i>
+                            Create User
+                        </button>
                         <button class="btn btn-secondary" onclick="refreshUsers()">
                             <i class="fas fa-sync-alt"></i>
                             Refresh
@@ -416,6 +454,84 @@
 
                 <div class="codes-grid" id="accessCodesList">
                     <!-- Access codes will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Policies Section -->
+            <section id="policies" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Policy Management</h2>
+                        <p>View, edit, and manage all created policies</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="refreshPolicies()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                        <button class="btn btn-danger" onclick="bulkDeletePolicies()">
+                            <i class="fas fa-trash"></i>
+                            Bulk Delete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Policy Search and Filters -->
+                <div class="policy-filters">
+                    <div class="filter-group">
+                        <input type="text" id="policySearch" placeholder="Search policies by title, content, or policy code..." onkeyup="filterPolicies()">
+                        <select id="policyTypeFilter" onchange="filterPolicies()">
+                            <option value="">All Types</option>
+                            <option value="admin">Admin Policy</option>
+                            <option value="sog">Standard Operating Guidelines</option>
+                            <option value="memo">Communication Memo</option>
+                        </select>
+                        <select id="policyOrganizationFilter" onchange="filterPolicies()">
+                            <option value="">All Organizations</option>
+                            <option value="All Organizations">All Organizations</option>
+                            <option value="Tudor Glen">Tudor Glen</option>
+                            <option value="River Valley">River Valley</option>
+                            <option value="Rosslyn">Rosslyn</option>
+                            <option value="UPC">UPC</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Policies Table -->
+                <div class="policies-table-container">
+                    <table class="policies-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAllPolicies" onchange="toggleAllPolicySelection()">
+                                </th>
+                                <th>Policy Code</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Organizations</th>
+                                <th>Created</th>
+                                <th>Last Modified</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="policiesTableBody">
+                            <!-- Policies will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Policies Message -->
+                <div id="noPoliciesMessage" class="no-data-message" style="display: none;">
+                    <div class="no-data-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>No Policies Found</h3>
+                    <p>No policies have been created yet. Use the AI Policy Assistant to create your first policy.</p>
+                    <button class="btn btn-primary" onclick="openAIModal()">
+                        <i class="fas fa-robot"></i>
+                        Create Policy with AI
+                    </button>
                 </div>
             </section>
 
@@ -521,6 +637,65 @@
                                 Export CSV
                             </button>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Policy Upload Section -->
+            <section id="policy-upload" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Policy Upload & AI Analysis</h2>
+                        <p>Upload existing policies and let AI categorize and extract information</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="clearUploadArea()">
+                            <i class="fas fa-redo"></i>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="upload-container">
+                    <!-- Drag and Drop Area -->
+                    <div id="uploadArea" class="upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Drag & Drop Your Policy Documents Here</h3>
+                        <p>or click to browse</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            <i class="fas fa-folder-open"></i>
+                            Choose Files
+                        </button>
+                        <p class="upload-info">Supported formats: PDF, Word, Text files</p>
+                    </div>
+
+                    <!-- Processing Status -->
+                    <div id="processingStatus" class="processing-status" style="display: none;">
+                        <div class="processing-content">
+                            <div class="processing-icon">
+                                <i class="fas fa-cog fa-spin"></i>
+                            </div>
+                            <h3>Processing Documents...</h3>
+                            <p id="processingMessage">Analyzing uploaded policies with AI</p>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Uploaded Files Preview -->
+                    <div id="uploadedFiles" class="uploaded-files" style="display: none;">
+                        <h3>Uploaded Documents</h3>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
+                    <!-- AI Analysis Results -->
+                    <div id="analysisResults" class="analysis-results" style="display: none;">
+                        <h3>AI Analysis Results</h3>
+                        <div id="analysisContent" class="analysis-content"></div>
                     </div>
                 </div>
             </section>
@@ -783,6 +958,31 @@
             </section>
 
             <!-- Help Section -->
+            <!-- Email Marketing Section -->
+            <section id="email-marketing" class="content-section">
+                <div class="section-header">
+                    <div class="header-content">
+                        <h2>Email Marketing</h2>
+                        <p>Create and schedule email campaigns</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openCreateEmailModal()">
+                            <i class="fas fa-plus"></i>
+                            Create Campaign
+                        </button>
+                        <button class="btn btn-secondary" onclick="refreshEmailCampaigns()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Campaigns Grid -->
+                <div class="campaigns-grid" id="emailCampaignsGrid">
+                    <!-- Campaigns will be loaded here -->
+                </div>
+            </section>
+
             <section id="help" class="content-section">
                 <div class="section-header">
                     <h2>Help & Support</h2>
@@ -834,6 +1034,7 @@
                             <p>Configure system-wide settings</p>
                             <ul>
                                 <li>Set default admin passwords</li>
+                                <li>Configure API settings per company</li>
                                 <li>Manage system preferences</li>
                             </ul>
                         </div>
@@ -875,72 +1076,40 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="launchCompanyForm" onsubmit="launchCompany(event)" novalidate>
+                <form id="launchCompanyForm" onsubmit="launchCompany(event)">
                     <div class="form-group">
-                        <label for="companyName">Company Name</label>
-                        <input type="text" id="companyName" required>
+                        <label for="companyName">Company Name <span style="color: red;">*</span></label>
+                        <input type="text" id="companyName" required placeholder="Enter company name">
                     </div>
                     <div class="form-group">
-                        <label for="accessCode">
-                            Access Code
-                            <button type="button" class="btn-link-inline" onclick="openCreateCodeFromLaunch()" title="Create new access code">
-                                <i class="fas fa-plus-circle"></i> Create New Code
-                            </button>
-                        </label>
-                        <select id="accessCode" required>
-                            <option value="">Select Access Code</option>
+                        <label for="adminUserSelect">Select User for Admin Privileges <span style="color: red;">*</span></label>
+                        <select id="adminUserSelect" required>
+                            <option value="">Select a user...</option>
                         </select>
-                        <small class="form-help">Select an existing code or create a new one</small>
+                        <small style="color: #666; margin-top: 5px; display: block;">The selected user will be granted admin access for this company</small>
                     </div>
                     <div class="form-group">
-                        <label for="adminUser">Admin User</label>
-                        <select id="adminUser" required>
-                            <option value="">Select Admin User</option>
-                        </select>
-                        <small class="form-help">Select an existing user to be the company admin</small>
+                        <label for="adminPassword">Admin Password <span style="color: red;">*</span></label>
+                        <input type="password" id="adminPassword" required placeholder="Enter admin password" minlength="6">
+                        <small style="color: #666; margin-top: 5px; display: block;">Set a password for the admin user (minimum 6 characters)</small>
                     </div>
                     <div class="form-group">
-                        <label for="adminPassword">Admin Password</label>
-                        <input type="password" id="adminPassword" required minlength="8" placeholder="Enter password for admin user">
-                        <small class="form-help">Password must be at least 8 characters</small>
+                        <label for="confirmAdminPassword">Confirm Admin Password <span style="color: red;">*</span></label>
+                        <input type="password" id="confirmAdminPassword" required placeholder="Confirm admin password" minlength="6">
+                        <small style="color: #666; margin-top: 5px; display: block;">Re-enter the password to confirm</small>
                     </div>
-                    
-                    <!-- Inline Code Creation (Hidden by default) -->
-                    <div id="inlineCodeCreation" class="inline-code-creation-launch" style="display: none;">
-                        <div class="inline-code-header">
-                            <h4><i class="fas fa-key"></i> Create New Access Code</h4>
-                            <button type="button" class="btn-link-small" onclick="hideInlineCodeCreation()">
-                                <i class="fas fa-times"></i> Cancel
+                    <div class="form-group">
+                        <label for="accessCode">Access Code <span style="color: red;">*</span></label>
+                        <div style="display: flex; gap: 10px; align-items: flex-end;">
+                            <select id="accessCode" required style="flex: 1;">
+                                <option value="">Select Access Code</option>
+                            </select>
+                            <button type="button" class="btn btn-secondary" onclick="createAccessCodeFromCompanyModal(event)" style="white-space: nowrap;">
+                                <i class="fas fa-plus"></i> Create New
                             </button>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="newCodeValueLaunch">Code Value</label>
-                                <input type="text" id="newCodeValueLaunch" placeholder="e.g., ABC123">
-                            </div>
-                            <div class="form-group">
-                                <label for="newCodeDescriptionLaunch">Description</label>
-                                <input type="text" id="newCodeDescriptionLaunch" placeholder="Brief description">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="newCodeExpiryLaunch">Expiry Date (Optional)</label>
-                                <input type="date" id="newCodeExpiryLaunch">
-                            </div>
-                            <div class="form-group">
-                                <label for="newCodeMaxCompaniesLaunch">Max Companies</label>
-                                <input type="number" id="newCodeMaxCompaniesLaunch" min="1" value="10">
-                            </div>
-                        </div>
-                        <div class="form-actions-inline">
-                            <button type="button" class="btn btn-secondary" onclick="hideInlineCodeCreation()">Cancel</button>
-                            <button type="button" class="btn btn-primary" onclick="createAndSelectAccessCode()">
-                                <i class="fas fa-check"></i> Create & Select
-                            </button>
-                        </div>
+                        <small style="color: #666; margin-top: 5px; display: block;">Select an existing access code or create a new one</small>
                     </div>
-                    
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="closeLaunchModal()">Cancel</button>
                         <button type="submit" class="btn btn-primary">Launch Company</button>
@@ -953,70 +1122,32 @@
     <div id="createCodeModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-header-content">
-                    <div class="modal-icon">
-                        <i class="fas fa-key"></i>
-                    </div>
-                    <div>
-                        <h3>Create New Access Code</h3>
-                        <p class="modal-subtitle">Generate a new access code for company registration</p>
-                    </div>
-                </div>
+                <h3>Create Access Code</h3>
                 <button class="modal-close" onclick="closeCreateCodeModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="createCodeForm" onsubmit="createAccessCode(event)">
-                    <div class="form-row">
-                        <div class="form-group form-group-flex">
-                            <label for="newAccessCode">
-                                <i class="fas fa-code"></i>
-                                Access Code <span class="required">*</span>
-                            </label>
-                            <input type="text" id="newAccessCode" placeholder="e.g., ABC123XYZ" required>
-                            <small class="form-help">Enter a unique code (letters and numbers)</small>
-                        </div>
-                    </div>
-                    
                     <div class="form-group">
-                        <label for="codeDescription">
-                            <i class="fas fa-align-left"></i>
-                            Description <span class="required">*</span>
-                        </label>
-                        <input type="text" id="codeDescription" placeholder="Brief description of this access code" required>
-                        <small class="form-help">Help identify what this code is for</small>
+                        <label for="newAccessCode">Access Code</label>
+                        <input type="text" id="newAccessCode" required>
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="maxCompanies">
-                                <i class="fas fa-building"></i>
-                                Max Companies
-                            </label>
-                            <input type="number" id="maxCompanies" min="1" value="10" required>
-                            <small class="form-help">Maximum number of companies that can use this code</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="codeExpiry">
-                                <i class="fas fa-calendar-alt"></i>
-                                Expiry Date
-                            </label>
-                            <input type="date" id="codeExpiry">
-                            <small class="form-help">Optional - when this code expires</small>
-                        </div>
+                    <div class="form-group">
+                        <label for="codeDescription">Description</label>
+                        <input type="text" id="codeDescription" required>
                     </div>
-                    
+                    <div class="form-group">
+                        <label for="codeExpiry">Expiry Date (optional)</label>
+                        <input type="date" id="codeExpiry">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxCompanies">Max Companies</label>
+                        <input type="number" id="maxCompanies" min="1" value="10">
+                    </div>
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary" onclick="closeCreateCodeModal()">
-                            <i class="fas fa-times"></i>
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-check"></i>
-                            Create Access Code
-                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeCreateCodeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Code</button>
                     </div>
                 </form>
             </div>
@@ -1102,6 +1233,43 @@
         </div>
     </div>
 
+    <!-- Company API Configuration Modal -->
+    <div id="companyAPIModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Configure Company API Settings</h3>
+                <button class="modal-close" onclick="closeCompanyAPIModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="companyAPIForm">
+                    <div class="form-group">
+                        <label for="apiCompanyName">Company</label>
+                        <input type="text" id="apiCompanyName" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="companyAPIKey">OpenAI API Key</label>
+                        <input type="password" id="companyAPIKey" placeholder="Enter OpenAI API key for this company">
+                        <small class="form-help">
+                            Get API key from <a href="https://platform.openai.com/api-keys" target="_blank">OpenAI Platform</a>
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="apiStatus">API Status</label>
+                        <div id="apiStatus" class="api-status">
+                            <!-- API status will be displayed here -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCompanyAPIModal()">Cancel</button>
+                        <button type="button" class="btn btn-info" onclick="testCompanyAPI()">Test API</button>
+                        <button type="button" class="btn btn-primary" onclick="saveCompanyAPIKey()">Save API Key</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Policy Edit Modal -->
     <div id="policyEditModal" class="modal">
@@ -1431,8 +1599,68 @@
         </div>
     </div>
 
+    <!-- Create User Modal -->
+    <div id="createUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New User</h3>
+                <button class="modal-close" onclick="closeCreateUserModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createUserForm" onsubmit="createUserFromAdmin(event)">
+                    <div class="form-group">
+                        <label for="newUserUsername">Username <span style="color: red;">*</span></label>
+                        <input type="text" id="newUserUsername" required placeholder="Enter username">
+                        <small style="color: #666; margin-top: 5px; display: block;">Unique username for login</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserEmail">Email <span style="color: red;">*</span></label>
+                        <input type="email" id="newUserEmail" required placeholder="Enter email address">
+                        <small style="color: #666; margin-top: 5px; display: block;">User's email address</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserFullName">Full Name</label>
+                        <input type="text" id="newUserFullName" placeholder="Enter full name">
+                        <small style="color: #666; margin-top: 5px; display: block;">User's full name (optional)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserPassword">Password <span style="color: red;">*</span></label>
+                        <input type="password" id="newUserPassword" required placeholder="Enter password" minlength="6">
+                        <small style="color: #666; margin-top: 5px; display: block;">Minimum 6 characters</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmNewUserPassword">Confirm Password <span style="color: red;">*</span></label>
+                        <input type="password" id="confirmNewUserPassword" required placeholder="Confirm password" minlength="6">
+                        <small style="color: #666; margin-top: 5px; display: block;">Re-enter password to confirm</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserCompany">Company</label>
+                        <select id="newUserCompany">
+                            <option value="">No Company (Standalone User)</option>
+                        </select>
+                        <small style="color: #666; margin-top: 5px; display: block;">Assign user to a company (optional)</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="newUserRole">Role</label>
+                        <select id="newUserRole">
+                            <option value="user">User</option>
+                            <option value="Admin">Admin</option>
+                            <option value="manager">Manager</option>
+                        </select>
+                        <small style="color: #666; margin-top: 5px; display: block;">User's role/permissions</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeCreateUserModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../supabase-config.js"></script>
     <script src="script.js?v=14&t=20250202"></script>
 </body>
