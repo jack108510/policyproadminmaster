@@ -3,7 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Policy Pro Master Admin Dashboard</title>
+    
+    <!-- CRITICAL: Load webhook config FIRST - NO SUPABASE -->
+    <script>
+        // Block any Supabase initialization immediately - BEFORE anything else loads
+        window.supabaseClient = null;
+        window.SUPABASE_URL = null;
+        window.SUPABASE_ANON_KEY = null;
+        
+        // Prevent Supabase library from initializing if it loads
+        if (typeof supabase !== 'undefined') {
+            const originalCreateClient = supabase.createClient;
+            supabase.createClient = function() {
+                console.warn('🚫 Supabase createClient blocked - using webhooks only');
+                return null;
+            };
+        }
+        
+        // Load webhook config IMMEDIATELY and SYNCHRONOUSLY
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'webhook-config.js?nocache=' + Date.now() + '&v=webhook-only-' + Date.now();
+            script.async = false; // CRITICAL: Load synchronously
+            script.defer = false;
+            script.onload = function() {
+                console.log('✅✅✅ webhook-config.js loaded - Supabase is DISABLED');
+            };
+            script.onerror = function() {
+                console.error('❌❌❌ CRITICAL: Failed to load webhook-config.js');
+            };
+            // Insert at the very beginning of head
+            document.head.insertBefore(script, document.head.firstChild);
+        })();
+    </script>
     <link rel="stylesheet" href="styles.css?v=2&t=20251113">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1661,43 +1697,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- CRITICAL: Load webhook config - NO SUPABASE -->
-    <script>
-        // Block any Supabase initialization immediately
-        window.supabaseClient = null;
-        window.SUPABASE_URL = null;
-        window.SUPABASE_ANON_KEY = null;
-        
-        // Prevent Supabase library from initializing if it loads
-        if (typeof supabase !== 'undefined') {
-            const originalCreateClient = supabase.createClient;
-            supabase.createClient = function() {
-                console.warn('🚫 Supabase createClient blocked - using webhooks only');
-                return null;
-            };
-        }
-        
-        // Load webhook config immediately with cache busting
-        (function() {
-            const script = document.createElement('script');
-            script.src = 'webhook-config.js?nocache=' + Date.now() + '&v=webhook-only';
-            script.async = false; // Load synchronously
-            script.onload = function() {
-                console.log('✅✅✅ webhook-config.js loaded - Supabase is DISABLED');
-            };
-            script.onerror = function() {
-                console.error('❌❌❌ CRITICAL: Failed to load webhook-config.js');
-            };
-            // Insert before other scripts
-            const chartScript = document.querySelector('script[src*="chart.js"]');
-            if (chartScript && chartScript.nextSibling) {
-                document.head.insertBefore(script, chartScript.nextSibling);
-            } else {
-                document.head.appendChild(script);
-            }
-        })();
-    </script>
-    <script src="script.js?v=14&t=20250202"></script>
+    <script src="script.js?v=200&t=20250202&nocache=webhook"></script>
 </body>
 </html>
