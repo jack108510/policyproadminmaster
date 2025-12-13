@@ -825,6 +825,10 @@ function displayUsers() {
     });
     
     const usersList = document.getElementById('usersList');
+    if (!usersList) {
+        console.warn('usersList element not found, skipping displayUsers');
+        return;
+    }
     usersList.innerHTML = '';
     
     if (users.length === 0) {
@@ -2637,7 +2641,9 @@ function editUserInfo(userId) {
     document.body.appendChild(modal);
     
     // Handle form submission
-    document.getElementById('editUserForm').addEventListener('submit', function(e) {
+    const editUserForm = document.getElementById('editUserForm');
+    if (editUserForm) {
+        editUserForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
         const newUsername = document.getElementById('editUsername').value;
@@ -2667,6 +2673,7 @@ function editUserInfo(userId) {
             }
         }
     });
+    }
 }
 
 // deleteUser function is already defined above (line 512) - this duplicate is removed
