@@ -1661,7 +1661,43 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../supabase-config.js"></script>
+    
+    <!-- CRITICAL: Load webhook config - NO SUPABASE -->
+    <script>
+        // Block any Supabase initialization immediately
+        window.supabaseClient = null;
+        window.SUPABASE_URL = null;
+        window.SUPABASE_ANON_KEY = null;
+        
+        // Prevent Supabase library from initializing if it loads
+        if (typeof supabase !== 'undefined') {
+            const originalCreateClient = supabase.createClient;
+            supabase.createClient = function() {
+                console.warn('🚫 Supabase createClient blocked - using webhooks only');
+                return null;
+            };
+        }
+        
+        // Load webhook config immediately with cache busting
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'webhook-config.js?nocache=' + Date.now() + '&v=webhook-only';
+            script.async = false; // Load synchronously
+            script.onload = function() {
+                console.log('✅✅✅ webhook-config.js loaded - Supabase is DISABLED');
+            };
+            script.onerror = function() {
+                console.error('❌❌❌ CRITICAL: Failed to load webhook-config.js');
+            };
+            // Insert before other scripts
+            const chartScript = document.querySelector('script[src*="chart.js"]');
+            if (chartScript && chartScript.nextSibling) {
+                document.head.insertBefore(script, chartScript.nextSibling);
+            } else {
+                document.head.appendChild(script);
+            }
+        })();
+    </script>
     <script src="script.js?v=14&t=20250202"></script>
 </body>
 </html>
